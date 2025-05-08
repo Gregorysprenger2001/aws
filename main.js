@@ -110,7 +110,7 @@ function showWind(jsondata) {
       return L.marker(latlng, {
       icon: L.divIcon({
         className: "aws-div-icon",
-        html: `<span style="background-color:${color}">${feature.properties.WG.toFixed(1)}</span>`
+        html: `<span style="background-color:${color}">${feature.properties.WG.toFixed(1)}km/h</span>`
       }),
 
       })
@@ -127,5 +127,4 @@ function getColor(value, ramp) {
   }  
 }
 
-let testColor = getColor (-3, COLORS.temperature)
-console.log("TestColor fuer temp -3" , testColor);
+
