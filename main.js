@@ -14,6 +14,7 @@ let map = L.map("map").setView([ibk.lat, ibk.lng], ibk.zoom);
 let overlays = {
   stations: L.featureGroup(),
   temperature: L.featureGroup().addTo(map),
+  wind: L.featureGroup(),
 }
 
 // Layer control
@@ -28,6 +29,7 @@ L.control.layers({
 }, {
   "Wetterstationen": overlays.stations,
   "Temperatur": overlays.temperature,
+  "Windgeschwindigkeit": overlays.wind
 }).addTo(map);
 
 // Maßstab
@@ -69,6 +71,7 @@ async function loadStations(url) {
     }
   }).addTo(overlays.stations);
   showTemperature(jsondata);
+  showWind(jsondata);
 }
 loadStations("https://static.avalanche.report/weather_stations/stations.geojson");
 
@@ -85,7 +88,7 @@ function showTemperature(jsondata) {
       return L.marker(latlng, {
       icon: L.divIcon({
         className: "aws-div-icon",
-        html: `<span style="background-color:${color}">${feature.properties.LT}</span>`
+        html: `<span style="background-color:${color}">${feature.properties.LT.toFixed(1)}</span>`
       }),
 
       })
@@ -94,6 +97,27 @@ function showTemperature(jsondata) {
   //TODO: Display temperature data
 }
 
+function showWind(jsondata) {
+  L.geoJSON(jsondata, {
+    filter: function (feature) {
+      if (feature.properties.WG > 0 && feature.properties.WG < 1000){
+        return true;
+      }
+
+    },
+    pointToLayer: function(feature, latlng) {
+      let color = getColor(feature.properties.WG, COLORS.wind);
+      return L.marker(latlng, {
+      icon: L.divIcon({
+        className: "aws-div-icon",
+        html: `<span style="background-color:${color}">${feature.properties.WG.toFixed(1)}</span>`
+      }),
+
+      })
+    },
+  }).addTo(overlays.wind);
+  //TODO: Display temperature data
+}
 function getColor(value, ramp) {
   for (let rule of ramp) {
     console.log("rule" , rule);
