@@ -81,10 +81,11 @@ function showTemperature(jsondata) {
 
     },
     pointToLayer: function(feature, latlng) {
+      let color = getColor(feature.properties.LT, COLORS.temperature);
       return L.marker(latlng, {
       icon: L.divIcon({
         className: "aws-div-icon",
-        html: `<span>${feature.properties.LT}</span>`
+        html: `<span style="background-color:${color}">${feature.properties.LT}</span>`
       }),
 
       })
@@ -92,3 +93,15 @@ function showTemperature(jsondata) {
   }).addTo(overlays.temperature);
   //TODO: Display temperature data
 }
+
+function getColor(value, ramp) {
+  for (let rule of ramp) {
+    console.log("rule" , rule);
+    if (value >= rule.min && value < rule.max){
+      return rule.color;
+    }
+  }  
+}
+
+let testColor = getColor (-3, COLORS.temperature)
+console.log("TestColor fuer temp -3" , testColor);
