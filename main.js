@@ -12,8 +12,8 @@ let map = L.map("map").setView([ibk.lat, ibk.lng], ibk.zoom);
 
 // thematische Layer
 let overlays = {
-  stations: L.featureGroup().addTo(map),
-  temperature: L.featureGroup(),
+  stations: L.featureGroup(),
+  temperature: L.featureGroup().addTo(map),
 }
 
 // Layer control
