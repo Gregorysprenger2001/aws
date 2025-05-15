@@ -32,6 +32,6 @@ const COLORS = {
             {min: 100, max: 200, color: "#1982ff"},
             {min: 200, max: 300, color: "#0f5abe"},
             {min: 300, max: 400, color: "#784bff"},
-            {min: 400, max: 500, color: "#cd0feb"},
+            {min: 400, max: 1000, color: "#cd0feb"},
         ]
 }
